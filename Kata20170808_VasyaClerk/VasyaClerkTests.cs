@@ -31,7 +31,7 @@ namespace Kata20170808_VasyaClerk
         }
 
         [TestMethod]
-        public void input_25_50_should_return_No()
+        public void input_25_50_should_return_YES()
         {
             PeopleInLineTicketShouldBe("YES", new[] { 25, 50 });
         }
@@ -49,9 +49,21 @@ namespace Kata20170808_VasyaClerk
         }
 
         [TestMethod]
-        public void input_25_25_50_50_should_return_No()
+        public void input_25_25_50_50_should_return_YES()
         {
             PeopleInLineTicketShouldBe("YES", new[] { 25, 25, 50, 50 });
+        }
+
+        [TestMethod]
+        public void input_25_25_25_25_25_100_100_should_return_No()
+        {
+            PeopleInLineTicketShouldBe("NO", new[] { 25, 25, 25, 25, 25, 100, 100 });
+        }
+
+        [TestMethod]
+        public void input_25_25_25_25_50_100_50_should_return_Yes()
+        {
+            PeopleInLineTicketShouldBe("YES", new[] { 25, 25, 25, 25, 50, 100, 50 });
         }
 
         private static void PeopleInLineTicketShouldBe(string expected, int[] peopleInLine)
@@ -64,21 +76,36 @@ namespace Kata20170808_VasyaClerk
     {
         public string Tickets(int[] peopleInLine)
         {
-            var receivced = 0;
-            foreach (int ticket in peopleInLine)
+            var received25 = 0;
+            var received50 = 0;
+            foreach (var ticket in peopleInLine)
             {
                 if (ticket == 25)
                 {
-                    receivced += 25;
-                    continue;
+                    received25++;
+                }
+                if (ticket == 50)
+                {
+                    received25--;
+                    received50++;
+                }
+                if (ticket == 100)
+                {
+                    if (received50 == 0)
+                    {
+                        received25 -= 3;
+                    }
+                    else
+                    {
+                        received25--;
+                        received50--;
+                    }
                 }
 
-                if (ticket - 25 > receivced)
+                if (received25 < 0 || received50 < 0)
                 {
                     return "NO";
                 }
-
-                receivced -= 25;
             }
 
             return "YES";
