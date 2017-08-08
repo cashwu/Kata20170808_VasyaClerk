@@ -36,6 +36,12 @@ namespace Kata20170808_VasyaClerk
             PeopleInLineTicketShouldBe("YES", new[] { 25, 50 });
         }
 
+        [TestMethod]
+        public void input_25_50_50_should_return_No()
+        {
+            PeopleInLineTicketShouldBe("NO", new[] { 25, 50, 50 });
+        }
+
         private static void PeopleInLineTicketShouldBe(string expected, int[] peopleInLine)
         {
             Assert.AreEqual(expected, new Line().Tickets(peopleInLine));
@@ -46,15 +52,21 @@ namespace Kata20170808_VasyaClerk
     {
         public string Tickets(int[] peopleInLine)
         {
-            var firstTicket = peopleInLine[0];
-            if (firstTicket == 50 || firstTicket == 100)
+            var receivced = 0;
+            foreach (int ticket in peopleInLine)
             {
-                return "NO";
-            }
+                if (ticket == 25)
+                {
+                    receivced += 25;
+                    continue;
+                }
 
-            if (peopleInLine.Length > 1 && peopleInLine[1] - 25 > firstTicket)
-            {
-                return "NO";
+                if (ticket - 25 > receivced)
+                {
+                    return "NO";
+                }
+
+                receivced -= 25;
             }
 
             return "YES";
