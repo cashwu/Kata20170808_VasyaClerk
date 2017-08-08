@@ -42,6 +42,12 @@ namespace Kata20170808_VasyaClerk
             PeopleInLineTicketShouldBe("NO", new[] { 25, 50, 50 });
         }
 
+        [TestMethod]
+        public void input_25_50_100_should_return_No()
+        {
+            PeopleInLineTicketShouldBe("NO", new[] { 25, 50, 100 });
+        }
+
         private static void PeopleInLineTicketShouldBe(string expected, int[] peopleInLine)
         {
             Assert.AreEqual(expected, new Line().Tickets(peopleInLine));
